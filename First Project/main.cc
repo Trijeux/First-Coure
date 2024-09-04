@@ -1,6 +1,7 @@
 #include <iostream>
 
-#include "Mathematics.hpp"
+#include "Mathematics.h"
+
 
 void main()
 {

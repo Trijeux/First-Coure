@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{91fbf25a-1791-48c5-a0b2-3e630c3f56e6}</ProjectGuid>
-    <RootNamespace>FirstProject</RootNamespace>
+    <ProjectGuid>{75b9e3bf-3df6-4f0e-a766-0e24672979ce}</ProjectGuid>
+    <RootNamespace>HeadsorTails</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,10 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Mathematics.h" />
+    <ClCompile Include="Heads or Tails.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
