@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{75b9e3bf-3df6-4f0e-a766-0e24672979ce}</ProjectGuid>
-    <RootNamespace>HeadsorTails</RootNamespace>
+    <ProjectGuid>{18a69f50-0a17-456e-a7d0-555b18584717}</ProjectGuid>
+    <RootNamespace>dicegames</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
