@@ -4,40 +4,63 @@
 #include <random>
 #include <thread>
 
-
 Game::Game()
 {
-	std::cout << "Welcome to the dice game" << std::endl;
+	std::cout << "Welcome to the dice game" << std::endl << std::endl;
 
-	std::cout << std::endl;
+	window_.create(sf::VideoMode(450, 700), "Dice Game");
+
+	graphics_.CreateButton(window_);
 }
 
 void Game::gameloop()
 {
-	do
+	while (window_.isOpen())
 	{
-		ChoiceNumber();
-
-		ChoiceBet();
-
-		SaveChoice();
-
-		DieRoll();
-
-		ComparePlayerChoice();
-
-		if (player_bankroll_ <= 0)
+		do
 		{
-			ReplayOrNot();
-		}
+			/*sf::Event event;
+			while (window_.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window_.close();
+					replay_ = false;
+				}
+			}
 
-	} while (replay_);
+			window_.clear(sf::Color::Blue);
+
+			graphics_.LoadImageDice(1, window_);
+
+			graphics_.ChangeTextChoice(window_);
+
+			graphics_.update_bankroll(window_, player_bankroll_);
+
+			graphics_.Draw(window_);
+
+			window_.display();*/
+
+			ChoiceNumber();
+
+			ChoiceBet();
+
+			DieRoll();
+
+			ComparePlayerChoice();
+
+			if (player_bankroll_ <= 0)
+			{
+				ReplayOrNot();
+			}
+			
+		} while (replay_);
+	}
 }
 
 void Game::ChoiceNumber()
 {
 	bool valid_player_choice_number = false;
-	bool valid_number = false;
 
 	//Ask the player number
 	do
@@ -52,13 +75,12 @@ void Game::ChoiceNumber()
 		{
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "Between invalid" << std::endl;
-			std::cout << std::endl;
+			std::cout << "Between invalid" << std::endl << std::endl;
 		}
 		else
 		{
 			int checker_number = 1;
-			valid_number = false;
+			bool valid_number = false;
 			do
 			{
 				if (player_choice_number_ == checker_number)
@@ -69,8 +91,7 @@ void Game::ChoiceNumber()
 				else if (checker_number >= 6)
 				{
 					valid_number = true;
-					std::cout << "Between invalid" << std::endl;
-					std::cout << std::endl;
+					std::cout << "Between invalid" << std::endl << std::endl;
 				}
 				checker_number++;
 			} while (!valid_number);
@@ -82,16 +103,14 @@ void Game::ChoiceNumber()
 void Game::ChoiceBet()
 {
 	bool valid_player_choice_bet = false;
-	bool valid_bet = false;
 
 	//Ask the player bet
 	do
 	{
-		std::cout << "if you win you double the bet and if you lose you lose the bet" << std::endl;
-		std::cout << std::endl;
+		std::cout << "if you win you double the bet and if you lose you lose the bet" << std::endl << std::endl;
 
-		std::cout << "Your bankroll : " << player_bankroll_ << std::endl;
-		std::cout << "Choose a number between 10(1), 50(2), 100(3), 250(4), 500(5) or 1000(6) : ";
+		std::cout << "Your bankroll : " << player_bankroll_ << "$" << std::endl;
+		std::cout << "Choose a number between 10$(1), 50$(2), 100$(3), 250$(4), 500$(5) or 1000$(6) : ";
 		std::cin >> player_choice_bet_;
 
 		system("cls");
@@ -101,13 +120,12 @@ void Game::ChoiceBet()
 		{
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "Between invalid" << std::endl;
-			std::cout << std::endl;
+			std::cout << "Between invalid" << std::endl << std::endl;
 		}
 		else
 		{
 			int checker_bet = 1;
-			valid_bet = false;
+			bool valid_bet = false;
 			do
 			{
 				if (player_choice_bet_ == checker_bet)
@@ -118,14 +136,15 @@ void Game::ChoiceBet()
 				else if (checker_bet >= 6)
 				{
 					valid_bet = true;
-					std::cout << "Between invalid" << std::endl;
-					std::cout << std::endl;
+					std::cout << "Between invalid" << std::endl << std::endl;
 				}
 				checker_bet++;
 			} while (!valid_bet);
 		}
 
 	} while (!valid_player_choice_bet);
+
+	SaveChoice();
 }
 
 void Game::SaveChoice()
@@ -141,7 +160,7 @@ void Game::SaveChoice()
 	{
 		bet_ = 10;
 	}
-		break;
+	break;
 	case 2:
 	{
 		bet_ = 50;
@@ -174,15 +193,25 @@ void Game::SaveChoice()
 	}
 	}
 
-	std::cout << "You play " << choice_player_ << std::endl;
-	std::cout << "You bet " << bet_ << std::endl;
 
-	std::this_thread::sleep_for(std::chrono::seconds(1));
+	if (bet_ <= player_bankroll_)
+	{
+		std::cout << "You play " << choice_player_ << std::endl;
+		std::cout << "You bet " << bet_ << "$" << std::endl;
+	}
+	else
+	{
+		std::cout << "you can't bet what you don't have!!!" << std::endl << std::endl;
+		ChoiceBet();
+	}
+	
+
+	//std::this_thread::sleep_for(std::chrono::seconds(1));
 }
 
 void Game::DieRoll()
 {
-	bool good_rand = false;
+	bool good_rand;
 
 	//Roll Die
 	do
@@ -214,20 +243,20 @@ void Game::ComparePlayerChoice()
 	if (result_ == choice_player_)
 	{
 		std::cout << "The result is " << result_ << std::endl;
-		std::cout << "You win !" << std::endl;
+		std::cout << "You win : " << bet_ * 2 << "$" << std::endl << std::endl;
 		player_bankroll_ += bet_ * 2;
-		std::cout << "You bankroll : " << player_bankroll_;
+		std::cout << "You bankroll : " << player_bankroll_ << "$";
 	}
 	else
 	{
 		std::cout << "The result is " << result_ << std::endl;
-		std::cout << "You lost !" << std::endl;
+		std::cout << "You lost : " << bet_ << "$" << std::endl << std::endl;
 		player_bankroll_ -= bet_;
-		std::cout << "You bankroll : " << player_bankroll_;
+		std::cout << "You bankroll : " << player_bankroll_ << "$";
 	}
 
 	std::cout << std::endl << std::endl;
-	
+
 }
 
 void Game::ReplayOrNot()
@@ -246,14 +275,14 @@ void Game::ReplayOrNot()
 		}
 		else
 		{
-			std::cout << "Between invalid" << std::endl;
-			std::cout << std::endl;
+			std::cout << "Between invalid" << std::endl << std::endl;
 		}
 	} while (!valid_replay_choice);
 
 	if (player_choice_replay_ == 'N' || player_choice_replay_ == 'n')
 	{
 		replay_ = false;
+		window_.close();
 	}
 
 	player_bankroll_ = 1000;

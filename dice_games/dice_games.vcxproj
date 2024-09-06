@@ -127,11 +127,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="game.cc" />
+    <ClCompile Include="graphics.cc" />
+    <ClCompile Include="main.cc" />
+    <ClCompile Include="ui_button.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
+    <ClInclude Include="graphics.h" />
+    <ClInclude Include="ui_button.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\ressources\dice_five.png" />
+    <Image Include="..\ressources\dice_four.png" />
+    <Image Include="..\ressources\dice_one.png" />
+    <Image Include="..\ressources\dice_six.png" />
+    <Image Include="..\ressources\dice_three.png" />
+    <Image Include="..\ressources\dice_tow.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

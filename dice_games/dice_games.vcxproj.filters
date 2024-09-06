@@ -15,10 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="main.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="game.cpp">
+    <ClCompile Include="game.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_button.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,5 +32,31 @@
     <ClInclude Include="game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="graphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\ressources\dice_five.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\ressources\dice_four.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\ressources\dice_one.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\ressources\dice_six.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\ressources\dice_three.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\ressources\dice_tow.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
