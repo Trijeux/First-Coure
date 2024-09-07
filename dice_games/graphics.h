@@ -42,16 +42,18 @@ private:
 	bool is_choice_ = true;
 	bool is_bet_ = false;
 
-	int number_choice_ = 0;
-	int bet_choice_ = 0;
-
 protected:
 public:
 	Graphics();
 
+	int number_choice_ = 0;
+	int bet_choice_ = 0;
+
 	void CreateButton(sf::RenderWindow&);
 
 	void update_bankroll(sf::RenderWindow&, int);
+
+	int HandleEventChoiceNumber(const sf::Event& event);
 
 	void ChangeTextChoice(sf::RenderWindow&);
 

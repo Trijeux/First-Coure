@@ -116,6 +116,19 @@ void Graphics::update_bankroll(sf::RenderWindow& window, int player_bankroll)
 	text_bankroll_.setPosition(160, window.getSize().y - 15);
 }
 
+int Graphics::HandleEventChoiceNumber(const sf::Event& event)
+{
+	if (btn_one_.HandleEvent(event) || 
+		btn_tow_.HandleEvent(event) || 
+		btn_three_.HandleEvent(event) || 
+		btn_four_.HandleEvent(event) || 
+		btn_five_.HandleEvent(event) || 
+		btn_six_.HandleEvent(event))
+	{
+		return number_choice_;
+	}
+}
+
 void Graphics::ChangeTextChoice(sf::RenderWindow& window)
 {
 	if (is_choice_)

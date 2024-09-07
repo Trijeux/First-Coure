@@ -19,9 +19,16 @@ void Game::gameloop()
 	{
 		do
 		{
-			/*sf::Event event;
+			sf::Event event;
 			while (window_.pollEvent(event))
 			{
+				if (ChoiceNumber(event) && !choice_number_lock_)
+				{
+					choice_number_lock_ = true;
+				}
+
+				DieRoll();
+
 				if (event.type == sf::Event::Closed)
 				{
 					window_.close();
@@ -31,29 +38,27 @@ void Game::gameloop()
 
 			window_.clear(sf::Color::Blue);
 
-			graphics_.LoadImageDice(1, window_);
-
 			graphics_.ChangeTextChoice(window_);
 
 			graphics_.update_bankroll(window_, player_bankroll_);
 
 			graphics_.Draw(window_);
 
-			window_.display();*/
+			window_.display();
 
-			ChoiceNumber();
+			//ChoiceNumber();
 
-			ChoiceBet();
+			//ChoiceBet();
 
-			DieRoll();
+			//DieRoll();
 
-			ComparePlayerChoice();
+			//ComparePlayerChoice();
 
-			if (player_bankroll_ <= 0)
-			{
-				ReplayOrNot();
-			}
-			
+			//if (player_bankroll_ <= 0)
+			//{
+			//	ReplayOrNot();
+			//}
+
 		} while (replay_);
 	}
 }
@@ -98,6 +103,35 @@ void Game::ChoiceNumber()
 		}
 
 	} while (!valid_player_choice_number);
+}
+
+bool Game::ChoiceNumber(sf::Event event)
+{
+	//Ask the player number
+	int choice_test = 0;
+
+	choice_test = graphics_.HandleEventChoiceNumber(event);
+
+	int checker_number = 1;
+	bool valid_number = false;
+	if (choice_test > 0)
+	{
+		do
+		{
+			if (choice_test == checker_number)
+			{
+				valid_number = true;
+				choice_number_ = choice_test;
+				return true;
+			}
+			else if (checker_number >= 6)
+			{
+				valid_number = true;
+			}
+			checker_number++;
+		} while (!valid_number);
+	}
+	return false;
 }
 
 void Game::ChoiceBet()
@@ -150,7 +184,7 @@ void Game::ChoiceBet()
 void Game::SaveChoice()
 {
 	//Save Choice player
-	choice_player_ = player_choice_number_;
+	choice_number_ = player_choice_number_;
 	choice_bet_ = player_choice_bet_;
 	bet_ = 0;
 
@@ -196,7 +230,7 @@ void Game::SaveChoice()
 
 	if (bet_ <= player_bankroll_)
 	{
-		std::cout << "You play " << choice_player_ << std::endl;
+		std::cout << "You play " << choice_number_ << std::endl;
 		std::cout << "You bet " << bet_ << "$" << std::endl;
 	}
 	else
@@ -204,7 +238,7 @@ void Game::SaveChoice()
 		std::cout << "you can't bet what you don't have!!!" << std::endl << std::endl;
 		ChoiceBet();
 	}
-	
+
 
 	//std::this_thread::sleep_for(std::chrono::seconds(1));
 }
@@ -223,7 +257,7 @@ void Game::DieRoll()
 
 		result_ = nb_rand(rand);
 
-		if (result_ <= 0 || result_ >= 6)
+		if (result_ <= 0 || result_ > 6)
 		{
 			good_rand = false;
 		}
@@ -233,6 +267,8 @@ void Game::DieRoll()
 		}
 
 	} while (!good_rand);
+
+	graphics_.LoadImageDice(result_, window_);
 }
 
 void Game::ComparePlayerChoice()
@@ -240,7 +276,7 @@ void Game::ComparePlayerChoice()
 	std::cout << std::endl;
 
 	//Compare with player choice
-	if (result_ == choice_player_)
+	if (result_ == choice_number_)
 	{
 		std::cout << "The result is " << result_ << std::endl;
 		std::cout << "You win : " << bet_ * 2 << "$" << std::endl << std::endl;

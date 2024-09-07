@@ -7,6 +7,7 @@ class Game
 private:
 
 	bool sfml_enable_ = false;
+	bool choice_number_lock_ = false;
 
 	sf::RenderWindow window_;
 	Graphics graphics_;
@@ -15,7 +16,7 @@ private:
 	int player_choice_bet_ = 0;
 	char player_choice_replay_ = 'O';
 
-	int choice_player_ = 0;
+	int choice_number_ = 0;
 	int choice_bet_ = 0;
 	int result_ = 0;
 
@@ -26,6 +27,9 @@ private:
 
 
 	void ChoiceNumber(); //Ask the player number
+
+	bool ChoiceNumber(sf::Event); //Ask the player number
+
 	void ChoiceBet(); //Ask the player bet
 	void SaveChoice(); //Save choice player
 	void DieRoll(); //Flip the coin
