@@ -25,6 +25,7 @@ void Game::gameloop()
 				if (ChoiceNumber(event) && !choice_number_lock_)
 				{
 					choice_number_lock_ = true;
+					std::cout << std::endl << std::endl << "Number : " << choice_number_;
 				}
 				else if (ChoiceBet(event) && !choice_bet_lock_)
 				{
@@ -187,7 +188,7 @@ void Game::ChoiceBet()
 
 bool Game::ChoiceBet(sf::Event event)
 {
-	int choice_test = graphics_.HandleEventChoiceNumber(event);
+	int choice_test = graphics_.HandleEventChoiceBet(event);
 
 	//Ask the player bet
 	int checker_bet = 1;
