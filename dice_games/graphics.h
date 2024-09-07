@@ -55,6 +55,8 @@ public:
 
 	int HandleEventChoiceNumber(const sf::Event& event);
 
+	int HandleEventChoiceBet(const sf::Event& event);
+
 	void ChangeTextChoice(sf::RenderWindow&);
 
 	void ChoiceNumber();

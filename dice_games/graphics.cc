@@ -129,6 +129,19 @@ int Graphics::HandleEventChoiceNumber(const sf::Event& event)
 	}
 }
 
+int Graphics::HandleEventChoiceBet(const sf::Event& event)
+{
+	if (btn_bet_one_.HandleEvent(event) ||
+		btn_bet_tow_.HandleEvent(event) ||
+		btn_bet_three_.HandleEvent(event) ||
+		btn_bet_four_.HandleEvent(event) ||
+		btn_bet_five_.HandleEvent(event) ||
+		btn_bet_six_.HandleEvent(event))
+	{
+		return bet_choice_;
+	}
+}
+
 void Graphics::ChangeTextChoice(sf::RenderWindow& window)
 {
 	if (is_choice_)

@@ -8,6 +8,7 @@ private:
 
 	bool sfml_enable_ = false;
 	bool choice_number_lock_ = false;
+	bool choice_bet_lock_ = false;
 
 	sf::RenderWindow window_;
 	Graphics graphics_;
@@ -31,7 +32,11 @@ private:
 	bool ChoiceNumber(sf::Event); //Ask the player number
 
 	void ChoiceBet(); //Ask the player bet
+
+	bool ChoiceBet(sf::Event); //Ask the player bet
+
 	void SaveChoice(); //Save choice player
+	void ChangeBetInPrice();
 	void DieRoll(); //Flip the coin
 	void ComparePlayerChoice(); //Compare with player choice
 	void ReplayOrNot();//Ask the player if they should play again

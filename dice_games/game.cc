@@ -26,8 +26,14 @@ void Game::gameloop()
 				{
 					choice_number_lock_ = true;
 				}
+				else if (ChoiceBet(event) && !choice_bet_lock_)
+				{
+					choice_bet_lock_ = true;
+					ChangeBetInPrice();
+					std::cout << std::endl << std::endl << "Bet : " << bet_;
+				}
 
-				DieRoll();
+				//DieRoll();
 
 				if (event.type == sf::Event::Closed)
 				{
@@ -107,13 +113,11 @@ void Game::ChoiceNumber()
 
 bool Game::ChoiceNumber(sf::Event event)
 {
-	//Ask the player number
-	int choice_test = 0;
-
-	choice_test = graphics_.HandleEventChoiceNumber(event);
+	int choice_test = graphics_.HandleEventChoiceNumber(event);
 
 	int checker_number = 1;
 	bool valid_number = false;
+
 	if (choice_test > 0)
 	{
 		do
@@ -181,51 +185,85 @@ void Game::ChoiceBet()
 	SaveChoice();
 }
 
-void Game::SaveChoice()
+bool Game::ChoiceBet(sf::Event event)
 {
-	//Save Choice player
-	choice_number_ = player_choice_number_;
-	choice_bet_ = player_choice_bet_;
+	int choice_test = graphics_.HandleEventChoiceNumber(event);
+
+	//Ask the player bet
+	int checker_bet = 1;
+	bool valid_bet = false;
+
+	do
+	{
+		if (choice_test == checker_bet)
+		{
+			valid_bet = true;
+			choice_bet_ = choice_test;
+			return true;
+		}
+		else if (checker_bet >= 6)
+		{
+			valid_bet = true;
+		}
+		checker_bet++;
+	} while (!valid_bet);
+
+
+	return false;
+}
+
+void Game::ChangeBetInPrice()
+{
 	bet_ = 0;
 
 	switch (choice_bet_)
 	{
 	case 1:
-	{
-		bet_ = 10;
-	}
-	break;
+		{
+			bet_ = 10;
+		}
+		break;
 	case 2:
-	{
-		bet_ = 50;
-	}
-	break;
+		{
+			bet_ = 50;
+		}
+		break;
 	case 3:
-	{
-		bet_ = 100;
-	}
-	break;
+		{
+			bet_ = 100;
+		}
+		break;
 	case 4:
-	{
-		bet_ = 250;
-	}
-	break;
+		{
+			bet_ = 250;
+		}
+		break;
 	case 5:
-	{
-		bet_ = 500;
-	}
-	break;
+		{
+			bet_ = 500;
+		}
+		break;
 	case 6:
-	{
-		bet_ = 1000;
-	}
-	break;
+		{
+			bet_ = 1000;
+		}
+		break;
 	default:
-	{
-		std::cout << "Error choice bet" << std::endl;
-		EXIT_FAILURE;
+		{
+			std::cout << "Error choice bet" << std::endl;
+			EXIT_FAILURE;
+		}
 	}
-	}
+}
+
+void Game::SaveChoice()
+{
+	//Save Choice player
+	choice_number_ = player_choice_number_;
+	choice_bet_ = player_choice_bet_;
+
+
+	ChangeBetInPrice();
 
 
 	if (bet_ <= player_bankroll_)
