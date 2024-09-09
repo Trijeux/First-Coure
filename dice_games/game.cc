@@ -32,13 +32,20 @@ void Game::gameloop()
 				{
 					choice_bet_lock_ = true;
 					choice_number_lock_ = false;
-					ChangeBetInPrice();
-					std::cout << std::endl << "Bet : " << bet_ << std::endl;
-					DiceRoll();
-					ComparePlayerChoice();
+					ChangeBetInPrice(event);
+					if (choice_bet_lock_)
+					{
+						std::cout << std::endl << "Bet : " << bet_ << std::endl;
+						DiceRoll();
+						ComparePlayerChoice();
+					}
 				}
 
-				
+				if (player_bankroll_ <= 0)
+				{
+					ReplayOrNot();
+				}
+
 
 				if (event.type == sf::Event::Closed)
 				{
@@ -120,7 +127,7 @@ bool Game::ChoiceNumber(sf::Event event)
 {
 	int choice_test = 0;
 	choice_test = graphics_.HandleEventChoiceNumber(event);
-	
+
 	int checker_number = 1;
 	bool valid_number = false;
 
@@ -195,7 +202,7 @@ bool Game::ChoiceBet(sf::Event event)
 {
 	int choice_test = 0;
 	choice_test = graphics_.HandleEventChoiceBet(event);
-	
+
 
 	//Ask the player bet
 	int checker_bet = 1;
@@ -229,40 +236,91 @@ void Game::ChangeBetInPrice()
 	switch (choice_bet_)
 	{
 	case 1:
-		{
-			bet_ = 10;
-		}
-		break;
+	{
+		bet_ = 10;
+	}
+	break;
 	case 2:
-		{
-			bet_ = 50;
-		}
-		break;
+	{
+		bet_ = 50;
+	}
+	break;
 	case 3:
-		{
-			bet_ = 100;
-		}
-		break;
+	{
+		bet_ = 100;
+	}
+	break;
 	case 4:
-		{
-			bet_ = 250;
-		}
-		break;
+	{
+		bet_ = 250;
+	}
+	break;
 	case 5:
-		{
-			bet_ = 500;
-		}
-		break;
+	{
+		bet_ = 500;
+	}
+	break;
 	case 6:
-		{
-			bet_ = 1000;
-		}
-		break;
+	{
+		bet_ = 1000;
+	}
+	break;
 	default:
-		{
-			std::cout << "Error choice bet" << std::endl;
-			EXIT_FAILURE;
-		}
+	{
+		std::cout << "Error choice bet" << std::endl;
+		EXIT_FAILURE;
+	}
+	}
+}
+
+void Game::ChangeBetInPrice(sf::Event event)
+{
+	bet_ = 0;
+
+	switch (choice_bet_)
+	{
+	case 1:
+	{
+		bet_ = 10;
+	}
+	break;
+	case 2:
+	{
+		bet_ = 50;
+	}
+	break;
+	case 3:
+	{
+		bet_ = 100;
+	}
+	break;
+	case 4:
+	{
+		bet_ = 250;
+	}
+	break;
+	case 5:
+	{
+		bet_ = 500;
+	}
+	break;
+	case 6:
+	{
+		bet_ = 1000;
+	}
+	break;
+	default:
+	{
+		std::cout << "Error choice bet" << std::endl;
+		EXIT_FAILURE;
+	}
+	}
+
+	if (bet_ > player_bankroll_)
+	{
+		choice_bet_lock_ = false;
+		graphics_.ChoiceBetInvalid();
+		std::cout << "Between invalid" << std::endl;
 	}
 }
 
@@ -345,25 +403,34 @@ void Game::ComparePlayerChoice()
 
 void Game::ReplayOrNot()
 {
-	bool valid_replay_choice = false;
-
-	//Ask the player if they should play again
-	do
+	if (!sfml_enable_)
 	{
-		std::cout << "Do you want to play again Yes [Y/y] or No [N/n] : ";
-		std::cin >> player_choice_replay_;
-		system("cls");
-		if (player_choice_replay_ == 'Y' || player_choice_replay_ == 'y' || player_choice_replay_ == 'N' || player_choice_replay_ == 'n')
-		{
-			valid_replay_choice = true;
-		}
-		else
-		{
-			std::cout << "Between invalid" << std::endl << std::endl;
-		}
-	} while (!valid_replay_choice);
+		bool valid_replay_choice = false;
 
-	if (player_choice_replay_ == 'N' || player_choice_replay_ == 'n')
+		//Ask the player if they should play again
+		do
+		{
+			std::cout << "Do you want to play again Yes [Y/y] or No [N/n] : ";
+			std::cin >> player_choice_replay_;
+			system("cls");
+			if (player_choice_replay_ == 'Y' || player_choice_replay_ == 'y' || player_choice_replay_ == 'N' || player_choice_replay_ == 'n')
+			{
+				valid_replay_choice = true;
+			}
+			else
+			{
+				std::cout << "Between invalid" << std::endl << std::endl;
+			}
+		} while (!valid_replay_choice);
+
+		if (player_choice_replay_ == 'N' || player_choice_replay_ == 'n')
+		{
+			replay_ = false;
+			window_.close();
+		}
+	}
+
+	if (sfml_enable_)
 	{
 		replay_ = false;
 		window_.close();

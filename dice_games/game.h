@@ -6,7 +6,7 @@ class Game
 {
 private:
 
-	bool sfml_enable_ = false;
+	bool sfml_enable_ = true;
 	bool choice_number_lock_ = false;
 	bool choice_bet_lock_ = false;
 
@@ -36,7 +36,12 @@ private:
 	bool ChoiceBet(sf::Event); //Ask the player bet
 
 	void SaveChoice(); //Save choice player
+
+
 	void ChangeBetInPrice();
+
+	void ChangeBetInPrice(sf::Event);
+
 	void DiceRoll(); //Flip the coin
 	void ComparePlayerChoice(); //Compare with player choice
 	void ReplayOrNot();//Ask the player if they should play again

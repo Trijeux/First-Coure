@@ -174,6 +174,12 @@ void Graphics::ChangeTextChoice(sf::RenderWindow& window)
 	text_choice_.setPosition(window.getSize().x / 2, window.getSize().y / 2 + 100);
 }
 
+void Graphics::ChoiceBetInvalid()
+{
+	is_bet_ = true;
+	is_choice_ = false;
+}
+
 void Graphics::LoadImageDice(const int dice_number, sf::RenderWindow& window)
 {
 	switch (dice_number)

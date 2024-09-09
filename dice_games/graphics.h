@@ -61,6 +61,8 @@ public:
 
 	void ChoiceNumber();
 
+	void ChoiceBetInvalid();
+
 	void LoadImageDice(int, sf::RenderWindow&);
 
 	void Draw(sf::RenderWindow&);
