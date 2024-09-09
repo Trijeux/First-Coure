@@ -80,31 +80,37 @@ void Graphics::CreateButton(sf::RenderWindow& window)
 		{
 			bet_choice_ = 1;
 			is_bet_ = false;
+			is_choice_ = true;
 		};
 	btn_bet_tow_.call_back_ = [this]()
 		{
 			bet_choice_ = 2;
 			is_bet_ = false;
+			is_choice_ = true;
 		};
 	btn_bet_three_.call_back_ = [this]()
 		{
 			bet_choice_ = 3;
 			is_bet_ = false;
+			is_choice_ = true;
 		};
 	btn_bet_four_.call_back_ = [this]()
 		{
 			bet_choice_ = 4;
 			is_bet_ = false;
+			is_choice_ = true;
 		};
 	btn_bet_five_.call_back_ = [this]()
 		{
 			bet_choice_ = 5;
 			is_bet_ = false;
+			is_choice_ = true;
 		};
 	btn_bet_six_.call_back_ = [this]()
 		{
 			bet_choice_ = 6;
 			is_bet_ = false;
+			is_choice_ = true;
 		};
 }
 
@@ -113,32 +119,40 @@ void Graphics::update_bankroll(sf::RenderWindow& window, int player_bankroll)
 	text_bankroll_.setString("Bankroll : " + std::to_string(player_bankroll) + "$");
 	const sf::FloatRect text_bankroll_rect = text_bankroll_.getLocalBounds();
 	text_bankroll_.setOrigin(text_bankroll_rect.left + text_bankroll_rect.width / 2.0f, text_bankroll_rect.top + text_bankroll_rect.height / 2.0f);
-	text_bankroll_.setPosition(160, window.getSize().y - 15);
+	text_bankroll_.setPosition(225, window.getSize().y - 15);
 }
 
 int Graphics::HandleEventChoiceNumber(const sf::Event& event)
 {
-	if (btn_one_.HandleEvent(event) || 
-		btn_tow_.HandleEvent(event) || 
-		btn_three_.HandleEvent(event) || 
-		btn_four_.HandleEvent(event) || 
-		btn_five_.HandleEvent(event) || 
-		btn_six_.HandleEvent(event))
+	number_choice_ = 0;
+	if (is_choice_ && !is_bet_)
 	{
-		return number_choice_;
+		if (btn_one_.HandleEvent(event) ||
+			btn_tow_.HandleEvent(event) ||
+			btn_three_.HandleEvent(event) ||
+			btn_four_.HandleEvent(event) ||
+			btn_five_.HandleEvent(event) ||
+			btn_six_.HandleEvent(event))
+		{
+			return number_choice_;
+		}
 	}
 }
 
 int Graphics::HandleEventChoiceBet(const sf::Event& event)
 {
-	if (btn_bet_one_.HandleEvent(event) ||
-		btn_bet_tow_.HandleEvent(event) ||
-		btn_bet_three_.HandleEvent(event) ||
-		btn_bet_four_.HandleEvent(event) ||
-		btn_bet_five_.HandleEvent(event) ||
-		btn_bet_six_.HandleEvent(event))
+	bet_choice_ = 0;
+	if (is_bet_ && !is_choice_)
 	{
-		return bet_choice_;
+		if (btn_bet_one_.HandleEvent(event) ||
+			btn_bet_tow_.HandleEvent(event) ||
+			btn_bet_three_.HandleEvent(event) ||
+			btn_bet_four_.HandleEvent(event) ||
+			btn_bet_five_.HandleEvent(event) ||
+			btn_bet_six_.HandleEvent(event))
+		{
+			return bet_choice_;
+		}
 	}
 }
 

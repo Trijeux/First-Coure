@@ -20,7 +20,7 @@ void Game::gameloop()
 
 		SaveChoice();
 
-		DieRoll();
+		DiceRoll();
 
 		ComparePlayerChoice();
 
@@ -76,7 +76,7 @@ void Game::SaveChoice()
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 }
 
-void Game::DieRoll()
+void Game::DiceRoll()
 {
 	bool good_rand = false;
 

@@ -25,16 +25,20 @@ void Game::gameloop()
 				if (ChoiceNumber(event) && !choice_number_lock_)
 				{
 					choice_number_lock_ = true;
+					choice_bet_lock_ = false;
 					std::cout << std::endl << std::endl << "Number : " << choice_number_;
 				}
 				else if (ChoiceBet(event) && !choice_bet_lock_)
 				{
 					choice_bet_lock_ = true;
+					choice_number_lock_ = false;
 					ChangeBetInPrice();
-					std::cout << std::endl << std::endl << "Bet : " << bet_;
+					std::cout << std::endl << "Bet : " << bet_ << std::endl;
+					DiceRoll();
+					ComparePlayerChoice();
 				}
 
-				//DieRoll();
+				
 
 				if (event.type == sf::Event::Closed)
 				{
@@ -57,7 +61,7 @@ void Game::gameloop()
 
 			//ChoiceBet();
 
-			//DieRoll();
+			//DiceRoll();
 
 			//ComparePlayerChoice();
 
@@ -114,8 +118,9 @@ void Game::ChoiceNumber()
 
 bool Game::ChoiceNumber(sf::Event event)
 {
-	int choice_test = graphics_.HandleEventChoiceNumber(event);
-
+	int choice_test = 0;
+	choice_test = graphics_.HandleEventChoiceNumber(event);
+	
 	int checker_number = 1;
 	bool valid_number = false;
 
@@ -188,27 +193,31 @@ void Game::ChoiceBet()
 
 bool Game::ChoiceBet(sf::Event event)
 {
-	int choice_test = graphics_.HandleEventChoiceBet(event);
+	int choice_test = 0;
+	choice_test = graphics_.HandleEventChoiceBet(event);
+	
 
 	//Ask the player bet
 	int checker_bet = 1;
 	bool valid_bet = false;
 
-	do
+	if (choice_test > 0)
 	{
-		if (choice_test == checker_bet)
+		do
 		{
-			valid_bet = true;
-			choice_bet_ = choice_test;
-			return true;
-		}
-		else if (checker_bet >= 6)
-		{
-			valid_bet = true;
-		}
-		checker_bet++;
-	} while (!valid_bet);
-
+			if (choice_test == checker_bet)
+			{
+				valid_bet = true;
+				choice_bet_ = choice_test;
+				return true;
+			}
+			else if (checker_bet >= 6)
+			{
+				valid_bet = true;
+			}
+			checker_bet++;
+		} while (!valid_bet);
+	}
 
 	return false;
 }
@@ -282,7 +291,7 @@ void Game::SaveChoice()
 	//std::this_thread::sleep_for(std::chrono::seconds(1));
 }
 
-void Game::DieRoll()
+void Game::DiceRoll()
 {
 	bool good_rand;
 

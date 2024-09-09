@@ -37,7 +37,7 @@ private:
 
 	void SaveChoice(); //Save choice player
 	void ChangeBetInPrice();
-	void DieRoll(); //Flip the coin
+	void DiceRoll(); //Flip the coin
 	void ComparePlayerChoice(); //Compare with player choice
 	void ReplayOrNot();//Ask the player if they should play again
 

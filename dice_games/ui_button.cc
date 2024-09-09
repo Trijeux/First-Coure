@@ -29,12 +29,12 @@ bool UiButton::ContainsMouse(const sf::Event& event) const
 bool UiButton::HandleEvent(const sf::Event& event)
 {
     // Check for mouse button released event
-    if (event.type == sf::Event::MouseButtonReleased) {
+    if (event.type == sf::Event::MouseButtonPressed) {
         // If the mouse click is inside the button
         if (ContainsMouse(event))
         {
             // Scale down the button slightly
-            setScale(getScale().x / 0.9f, getScale().y / 0.9f);
+            //setScale(getScale().x / 0.9f, getScale().y / 0.9f);
 
             // Check if it was a left mouse button click
             if (event.mouseButton.button == sf::Mouse::Left)
@@ -47,17 +47,17 @@ bool UiButton::HandleEvent(const sf::Event& event)
         }
     }
 
-    // Check for mouse button pressed event
-    if (event.type == sf::Event::MouseButtonPressed)
-    {
-        // If the mouse click is inside the button
-        if (ContainsMouse(event))
-        {
-            // Scale down the button slightly and set build_on flag
-            setScale(0.9f * getScale().x, 0.9f * getScale().y);
-            build_on_ = true;
-        }
-    }
+    //// Check for mouse button pressed event
+    //if (event.type == sf::Event::MouseButtonPressed)
+    //{
+    //    // If the mouse click is inside the button
+    //    if (ContainsMouse(event))
+    //    {
+    //        // Scale down the button slightly and set build_on flag
+    //        setScale(0.9f * getScale().x, 0.9f * getScale().y);
+    //        build_on_ = true;
+    //    }
+    //}
 
     // Check if the mouse is currently inside the button
     if (ContainsMouse(event)) {

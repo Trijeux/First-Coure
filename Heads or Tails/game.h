@@ -18,7 +18,7 @@ public:
 
 	void ChoiceNumber(); //Ask the player heads or tails
 	void SaveChoice(); //Save Choice player
-	void DieRoll(); //Flip the coin
+	void DiceRoll(); //Flip the coin
 	void ComparePlayerChoice() const; //Compare with player choice
 	void ReplayOrNot();//Ask the player if they should play again
 
