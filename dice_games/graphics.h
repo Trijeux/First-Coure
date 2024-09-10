@@ -14,6 +14,7 @@ private:
 	sf::Texture dice_four_texture_;
 	sf::Texture dice_five_texture_;
 	sf::Texture dice_six_texture_;
+	
 
 	UiButton btn_one_;
 	UiButton btn_tow_;
@@ -37,7 +38,7 @@ private:
 	sf::Font font_;
 
 	sf::Text text_win_or_lose_;
-	sf::Text text_result_bet_;
+	sf::Text text_invalid_bet_;
 
 	bool is_choice_ = true;
 	bool is_bet_ = false;
@@ -45,6 +46,10 @@ private:
 protected:
 public:
 	Graphics();
+
+	bool is_win_ = false;
+	bool is_lose_ = false;
+	bool is_invalid_bet_ = false;
 
 	int number_choice_ = 0;
 	int bet_choice_ = 0;
@@ -59,7 +64,7 @@ public:
 
 	void ChangeTextChoice(sf::RenderWindow&);
 
-	void ChoiceNumber();
+	void WinOrLose(sf::RenderWindow&, int);
 
 	void ChoiceBetInvalid();
 

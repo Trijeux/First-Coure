@@ -20,6 +20,12 @@ Graphics::Graphics()
 
 	text_bankroll_.setFont(font_);
 	text_bankroll_.setFillColor(sf::Color::Yellow);
+
+	text_win_or_lose_.setFont(font_);
+	text_win_or_lose_.setFillColor(sf::Color::Yellow);
+
+	text_invalid_bet_.setFont(font_);
+	text_invalid_bet_.setFillColor(sf::Color::Yellow);
 }
 
 
@@ -112,6 +118,11 @@ void Graphics::CreateButton(sf::RenderWindow& window)
 			is_bet_ = false;
 			is_choice_ = true;
 		};
+
+	text_invalid_bet_.setString("Invalid Bet");
+	const sf::FloatRect text_invalid_bet = text_invalid_bet_.getLocalBounds();
+	text_invalid_bet_.setOrigin(text_invalid_bet.left + text_invalid_bet.width / 2.0f, text_invalid_bet.top + text_invalid_bet.height / 2.0f);
+	text_invalid_bet_.setPosition(window.getSize().x / 2, window.getSize().y - 50);
 }
 
 void Graphics::update_bankroll(sf::RenderWindow& window, int player_bankroll)
@@ -172,6 +183,23 @@ void Graphics::ChangeTextChoice(sf::RenderWindow& window)
 	const sf::FloatRect text_choice_rect = text_choice_.getLocalBounds();
 	text_choice_.setOrigin(text_choice_rect.left + text_choice_rect.width / 2.0f, text_choice_rect.top + text_choice_rect.height / 2.0f);
 	text_choice_.setPosition(window.getSize().x / 2, window.getSize().y / 2 + 100);
+}
+
+void Graphics::WinOrLose(sf::RenderWindow& window, int bet)
+{
+	if (is_win_)
+	{
+		text_win_or_lose_.setString("You Win " + std::to_string(bet));
+	}
+
+	if (is_lose_)
+	{
+		text_win_or_lose_.setString("You Lose " + std::to_string(bet));
+	}
+
+	const sf::FloatRect text_win_or_lose = text_win_or_lose_.getLocalBounds();
+	text_win_or_lose_.setOrigin(text_win_or_lose.left + text_win_or_lose.width / 2.0f, text_win_or_lose.top + text_win_or_lose.height / 2.0f);
+	text_win_or_lose_.setPosition(window.getSize().x / 2, window.getSize().y - 50);
 }
 
 void Graphics::ChoiceBetInvalid()
@@ -250,5 +278,15 @@ void Graphics::Draw(sf::RenderWindow& window)
 
 	window.draw(text_choice_);
 	window.draw(text_bankroll_);
+
+	if (is_win_ || is_lose_)
+	{
+		window.draw(text_win_or_lose_);
+	}
+
+	if (is_invalid_bet_)
+	{
+		window.draw(text_invalid_bet_);
+	}
 }
 

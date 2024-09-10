@@ -138,6 +138,8 @@ bool Game::ChoiceNumber(sf::Event event)
 			if (choice_test == checker_number)
 			{
 				valid_number = true;
+				graphics_.is_lose_ = false;
+				graphics_.is_win_ = false;
 				choice_number_ = choice_test;
 				return true;
 			}
@@ -216,6 +218,7 @@ bool Game::ChoiceBet(sf::Event event)
 			{
 				valid_bet = true;
 				choice_bet_ = choice_test;
+				graphics_.is_invalid_bet_ = false;
 				return true;
 			}
 			else if (checker_bet >= 6)
@@ -320,7 +323,7 @@ void Game::ChangeBetInPrice(sf::Event event)
 	{
 		choice_bet_lock_ = false;
 		graphics_.ChoiceBetInvalid();
-		std::cout << "Between invalid" << std::endl;
+		graphics_.is_invalid_bet_ = true;
 	}
 }
 
@@ -386,6 +389,8 @@ void Game::ComparePlayerChoice()
 	{
 		std::cout << "The result is " << result_ << std::endl;
 		std::cout << "You win : " << bet_ * 2 << "$" << std::endl << std::endl;
+		graphics_.is_win_ = true;
+		graphics_.WinOrLose(window_, bet_ *2);
 		player_bankroll_ += bet_ * 2;
 		std::cout << "You bankroll : " << player_bankroll_ << "$";
 	}
@@ -393,6 +398,8 @@ void Game::ComparePlayerChoice()
 	{
 		std::cout << "The result is " << result_ << std::endl;
 		std::cout << "You lost : " << bet_ << "$" << std::endl << std::endl;
+		graphics_.is_lose_ = true;
+		graphics_.WinOrLose(window_, bet_);
 		player_bankroll_ -= bet_;
 		std::cout << "You bankroll : " << player_bankroll_ << "$";
 	}
