@@ -6,11 +6,38 @@
 
 Game::Game()
 {
+	char is_yes = NULL;
+	bool valid_replay_choice = false;
+
 	std::cout << "Welcome to the dice game" << std::endl << std::endl;
 
 	window_.create(sf::VideoMode(450, 700), "Dice Game");
 
 	graphics_.CreateButton(window_);
+
+	do
+	{
+
+		std::cout << "Do you want to play in console (Y/y , N/n): ";
+
+		std::cin >> is_yes;
+
+		system("cls");
+
+		if (is_yes == 'Y' || is_yes == 'y' || is_yes == 'N' || is_yes == 'n')
+		{
+			valid_replay_choice = true;
+		}
+		else
+		{
+			std::cout << "Between invalid" << std::endl << std::endl;
+		}
+	} while (!valid_replay_choice);
+
+	if (is_yes == 'N' || is_yes == 'n')
+	{
+		sfml_enable_ = true;
+	}
 }
 
 void Game::gameloop()
@@ -19,69 +46,76 @@ void Game::gameloop()
 	{
 		do
 		{
-			sf::Event event;
-			while (window_.pollEvent(event))
+			if (sfml_enable_)
 			{
-				if (ChoiceNumber(event) && !choice_number_lock_ && !graphics_.is_end_)
+				sf::Event event;
+				while (window_.pollEvent(event))
 				{
-					choice_number_lock_ = true;
-					choice_bet_lock_ = false;
-					std::cout << std::endl << std::endl << "Number : " << choice_number_;
-				}
-				else if (ChoiceBet(event) && !choice_bet_lock_ && !graphics_.is_end_)
-				{
-					choice_bet_lock_ = true;
-					choice_number_lock_ = false;
-					ChangeBetInPrice(event);
-					if (choice_bet_lock_)
+					if (ChoiceNumber(event) && !choice_number_lock_ && !graphics_.is_end_)
 					{
-						std::cout << std::endl << "Bet : " << bet_ << std::endl;
-						DiceRoll();
-						ComparePlayerChoice();
+						choice_number_lock_ = true;
+						choice_bet_lock_ = false;
+						std::cout << std::endl << std::endl << "Number : " << choice_number_;
+					}
+					else if (ChoiceBet(event) && !choice_bet_lock_ && !graphics_.is_end_)
+					{
+						choice_bet_lock_ = true;
+						choice_number_lock_ = false;
+						ChangeBetInPrice(event);
+						if (choice_bet_lock_)
+						{
+							std::cout << std::endl << "Bet : " << bet_ << std::endl;
+							DiceRoll();
+							ComparePlayerChoice();
+						}
+					}
+
+					if (player_bankroll_ <= 0)
+					{
+						graphics_.is_end_ = true;
+						graphics_.is_bet_ = false;
+						graphics_.is_choice_ = false;
+						if (graphics_.HandleEventQuit(event))
+						{
+							ReplayOrNot();
+						}
+					}
+
+
+					if (event.type == sf::Event::Closed)
+					{
+						window_.close();
+						replay_ = false;
 					}
 				}
+
+
+				window_.clear(sf::Color::Blue);
+
+				graphics_.ChangeTextChoice(window_);
+
+				graphics_.update_bankroll(window_, player_bankroll_);
+
+				graphics_.Draw(window_);
+
+				window_.display();
+			}
+
+			if (!sfml_enable_)
+			{
+				ChoiceNumber();
+
+				ChoiceBet();
+
+				DiceRoll();
+
+				ComparePlayerChoice();
 
 				if (player_bankroll_ <= 0)
 				{
-					graphics_.is_end_ = true;
-					graphics_.is_bet_ = false;
-					graphics_.is_choice_ = false;
-					if (graphics_.HandleEventQuit(event))
-					{
-						ReplayOrNot();
-					}
-				}
-
-
-				if (event.type == sf::Event::Closed)
-				{
-					window_.close();
-					replay_ = false;
+					ReplayOrNot();
 				}
 			}
-
-			window_.clear(sf::Color::Blue);
-
-			graphics_.ChangeTextChoice(window_);
-
-			graphics_.update_bankroll(window_, player_bankroll_);
-
-			graphics_.Draw(window_);
-
-			window_.display();
-
-			//ChoiceNumber();
-
-			//ChoiceBet();
-
-			//DiceRoll();
-
-			//ComparePlayerChoice();
-
-			//if (player_bankroll_ <= 0)
-			//{
-			//	ReplayOrNot();
-			//}
 
 		} while (replay_);
 	}
@@ -383,7 +417,10 @@ void Game::DiceRoll()
 
 	} while (!good_rand);
 
-	graphics_.LoadImageDice(result_, window_);
+	if (sfml_enable_)
+	{
+		graphics_.LoadImageDice(result_, window_);
+	}
 }
 
 void Game::ComparePlayerChoice()
@@ -395,8 +432,13 @@ void Game::ComparePlayerChoice()
 	{
 		std::cout << "The result is " << result_ << std::endl;
 		std::cout << "You win : " << bet_ * 2 << "$" << std::endl << std::endl;
-		graphics_.is_win_ = true;
-		graphics_.WinOrLose(window_, bet_ *2);
+
+		if (sfml_enable_)
+		{
+			graphics_.is_win_ = true;
+			graphics_.WinOrLose(window_, bet_ * 2);
+		}
+
 		player_bankroll_ += bet_ * 2;
 		std::cout << "You bankroll : " << player_bankroll_ << "$";
 	}
@@ -404,8 +446,13 @@ void Game::ComparePlayerChoice()
 	{
 		std::cout << "The result is " << result_ << std::endl;
 		std::cout << "You lost : " << bet_ << "$" << std::endl << std::endl;
-		graphics_.is_lose_ = true;
-		graphics_.WinOrLose(window_, bet_);
+
+		if (sfml_enable_)
+		{
+			graphics_.is_lose_ = true;
+			graphics_.WinOrLose(window_, bet_);
+		}
+
 		player_bankroll_ -= bet_;
 		std::cout << "You bankroll : " << player_bankroll_ << "$";
 	}

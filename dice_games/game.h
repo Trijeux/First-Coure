@@ -6,7 +6,7 @@ class Game
 {
 private:
 
-	bool sfml_enable_ = true;
+	bool sfml_enable_ = false;
 	bool choice_number_lock_ = false;
 	bool choice_bet_lock_ = false;
 
