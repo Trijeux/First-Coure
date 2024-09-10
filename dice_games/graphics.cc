@@ -288,7 +288,7 @@ void Graphics::Draw(sf::RenderWindow& window)
 		window.draw(btn_end_);
 	}
 
-	if (is_choice_ && is_bet_)
+	if (is_choice_ || is_bet_)
 	{
 		window.draw(text_choice_);
 	}
