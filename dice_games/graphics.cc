@@ -45,6 +45,8 @@ void Graphics::CreateButton(sf::RenderWindow& window)
 	btn_bet_five_.CreateButton(sf::Vector2f(window.getSize().x / 6 + 100, window.getSize().y / 2 + 250), sf::Vector2f(95, 50), "500", 30, sf::Color::Yellow);
 	btn_bet_six_.CreateButton(sf::Vector2f(window.getSize().x / 6 + 200, window.getSize().y / 2 + 250), sf::Vector2f(95, 50), "1000", 30, sf::Color::Yellow);
 
+	btn_end_.CreateButton(sf::Vector2f(window.getSize().x / 6 + 150, window.getSize().y / 2 + 200), sf::Vector2f(95, 50), "Quit", 30, sf::Color::Yellow);
+
 	btn_one_.call_back_ = [this]()
 		{
 			number_choice_ = 1;
@@ -167,6 +169,11 @@ int Graphics::HandleEventChoiceBet(const sf::Event& event)
 	}
 }
 
+bool Graphics::HandleEventQuit(const sf::Event& event)
+{
+	return btn_end_.HandleEvent(event);
+}
+
 void Graphics::ChangeTextChoice(sf::RenderWindow& window)
 {
 	if (is_choice_)
@@ -276,7 +283,16 @@ void Graphics::Draw(sf::RenderWindow& window)
 		window.draw(btn_bet_six_);
 	}
 
-	window.draw(text_choice_);
+	if (is_end_)
+	{
+		window.draw(btn_end_);
+	}
+
+	if (is_choice_ && is_bet_)
+	{
+		window.draw(text_choice_);
+	}
+
 	window.draw(text_bankroll_);
 
 	if (is_win_ || is_lose_)

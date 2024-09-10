@@ -22,13 +22,13 @@ void Game::gameloop()
 			sf::Event event;
 			while (window_.pollEvent(event))
 			{
-				if (ChoiceNumber(event) && !choice_number_lock_)
+				if (ChoiceNumber(event) && !choice_number_lock_ && !graphics_.is_end_)
 				{
 					choice_number_lock_ = true;
 					choice_bet_lock_ = false;
 					std::cout << std::endl << std::endl << "Number : " << choice_number_;
 				}
-				else if (ChoiceBet(event) && !choice_bet_lock_)
+				else if (ChoiceBet(event) && !choice_bet_lock_ && !graphics_.is_end_)
 				{
 					choice_bet_lock_ = true;
 					choice_number_lock_ = false;
@@ -43,7 +43,13 @@ void Game::gameloop()
 
 				if (player_bankroll_ <= 0)
 				{
-					ReplayOrNot();
+					graphics_.is_end_ = true;
+					graphics_.is_bet_ = false;
+					graphics_.is_choice_ = false;
+					if (graphics_.HandleEventQuit(event))
+					{
+						ReplayOrNot();
+					}
 				}
 
 

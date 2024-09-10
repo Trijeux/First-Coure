@@ -30,8 +30,7 @@ private:
 	UiButton btn_bet_five_;
 	UiButton btn_bet_six_;
 
-	UiButton btn_yes_;
-	UiButton btn_no_;
+	UiButton btn_end_;
 
 	sf::Text text_choice_;
 	sf::Text text_bankroll_;
@@ -40,8 +39,6 @@ private:
 	sf::Text text_win_or_lose_;
 	sf::Text text_invalid_bet_;
 
-	bool is_choice_ = true;
-	bool is_bet_ = false;
 
 protected:
 public:
@@ -50,6 +47,9 @@ public:
 	bool is_win_ = false;
 	bool is_lose_ = false;
 	bool is_invalid_bet_ = false;
+	bool is_end_ = false;
+	bool is_choice_ = true;
+	bool is_bet_ = false;
 
 	int number_choice_ = 0;
 	int bet_choice_ = 0;
@@ -61,6 +61,8 @@ public:
 	int HandleEventChoiceNumber(const sf::Event& event);
 
 	int HandleEventChoiceBet(const sf::Event& event);
+
+	bool HandleEventQuit(const sf::Event& event);
 
 	void ChangeTextChoice(sf::RenderWindow&);
 
