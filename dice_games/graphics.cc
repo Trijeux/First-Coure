@@ -196,12 +196,12 @@ void Graphics::WinOrLose(sf::RenderWindow& window, int bet)
 {
 	if (is_win_)
 	{
-		text_win_or_lose_.setString("You Win " + std::to_string(bet));
+		text_win_or_lose_.setString("You Win " + std::to_string(bet) + "$");
 	}
 
 	if (is_lose_)
 	{
-		text_win_or_lose_.setString("You Lose " + std::to_string(bet));
+		text_win_or_lose_.setString("You Lose " + std::to_string(bet) + "$");
 	}
 
 	const sf::FloatRect text_win_or_lose = text_win_or_lose_.getLocalBounds();
