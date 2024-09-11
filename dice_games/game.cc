@@ -3,6 +3,7 @@
 #include <iostream>
 #include <random>
 #include <thread>
+#include <windows.h>
 
 Game::Game()
 {
@@ -37,6 +38,8 @@ Game::Game()
 	if (is_yes == 'N' || is_yes == 'n')
 	{
 		sfml_enable_ = true;
+		HWND consoleWindow = GetConsoleWindow();
+		ShowWindow(consoleWindow, SW_HIDE);
 	}
 }
 
