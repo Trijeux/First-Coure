@@ -5,8 +5,13 @@
 #include <thread>
 #include <windows.h>
 
+#define FORITCH false
+
 Game::Game()
 {
+	HWND consoleWindow = GetConsoleWindow();
+	ShowWindow(consoleWindow, SW_SHOW);
+
 	char is_yes = NULL;
 	bool valid_replay_choice = false;
 
@@ -21,7 +26,13 @@ Game::Game()
 
 		std::cout << "Do you want to play in console (Y/y , N/n): ";
 
-		std::cin >> is_yes;
+#if FORITCH
+			std::cin >> is_yes;
+#endif
+
+#if !FORITCH
+			is_yes = 'n';
+#endif
 
 		system("cls");
 
